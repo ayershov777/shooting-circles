@@ -12,5 +12,4 @@ export default class World {
         const entity = obj.getEntity();
         this.app.stage.addChild(entity);
     }
-    
 }

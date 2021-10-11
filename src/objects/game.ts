@@ -11,8 +11,8 @@ export default class Game {
 
   constructor() {
     this.app = new PIXI.Application();
-    this.gameControls = new GameControls();
     this.player = new Player(this.app);
+    this.gameControls = new GameControls(this.player);
     this.world = new World(this.app);
 
     this.initWorld();

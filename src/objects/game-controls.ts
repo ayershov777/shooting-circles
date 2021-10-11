@@ -1,51 +1,59 @@
 import KeyboardControl from "./keyboard-control";
+import Player from "./player";
 
 export default class GameControls {
-    private wKey: KeyboardControl;
-    private aKey: KeyboardControl;
-    private sKey: KeyboardControl;
-    private dKey: KeyboardControl;
+  private player: Player;
 
-    constructor() {
-        this.wKey = new KeyboardControl("w", this.pressW, this.releaseW);
-        this.aKey = new KeyboardControl("a", this.pressA, this.releaseA);
-        this.sKey = new KeyboardControl("s", this.pressS, this.releaseS);
-        this.dKey = new KeyboardControl("d", this.pressD, this.releaseD);
-    }
+  private wKey: KeyboardControl;
+  private aKey: KeyboardControl;
+  private sKey: KeyboardControl;
+  private dKey: KeyboardControl;
 
-    // w key
-    private pressW() {
-        console.log('pressed w');
-    }
+  constructor(player: Player) {
+    this.player = player;
+    this.wKey = new KeyboardControl("w", this.pressW, this.releaseW);
+    this.aKey = new KeyboardControl("a", this.pressA, this.releaseA);
+    this.sKey = new KeyboardControl("s", this.pressS, this.releaseS);
+    this.dKey = new KeyboardControl("d", this.pressD, this.releaseD);
+  }
 
-    private releaseW() {
-        console.log('released w');
-    }
+  // w key
+  private pressW() {
+    console.log("pressed w");
+    this.player.up();
+  }
 
-    // a key
-    private pressA() {
-        console.log("pressed a");
-    }
+  private releaseW() {
+    console.log("released w");
+  }
 
-    private releaseA() {
-        console.log("released a");
-    }
+  // a key
+  private pressA() {
+    console.log("pressed a");
+    this.player.left();
+  }
 
-    // s key
-    private pressS() {
-        console.log("pressed s");
-    }
+  private releaseA() {
+    console.log("released a");
+  }
 
-    private releaseS() {
-        console.log("released s");
-    }
+  // s key
+  private pressS() {
+    console.log("pressed s");
+    this.player.down();
+  }
 
-    // d key
-    private pressD() {
-        console.log("pressed d");
-    }
+  private releaseS() {
+    console.log("released s");
+  }
 
-    private releaseD() {
-        console.log("released d");
-    }
+  // d key
+  private pressD() {
+    console.log("pressed d");
+    this.player.right();
+  }
+
+  private releaseD() {
+    console.log("released d");
+  }
 }
