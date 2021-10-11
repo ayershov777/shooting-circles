@@ -1,18 +1,18 @@
 import * as PIXI from "pixi.js";
-import GameControls from "./game-controls";
+import KeyboardControls from "./keyboard-controls";
 import Player from "./player";
 import World from "./world";
 
 export default class Game {
   private app: PIXI.Application;
-  private gameControls: GameControls;
+  private keyboardControls: KeyboardControls;
   private player: Player;
   private world: World;
 
   constructor() {
     this.app = new PIXI.Application();
     this.player = new Player(this.app);
-    this.gameControls = new GameControls(this.player);
+    this.keyboardControls = new KeyboardControls(this.player);
     this.world = new World(this.app);
 
     this.initWorld();

@@ -22,11 +22,11 @@ export default class Player extends WorldObject {
   }
 
   up() {
-    this.entity.y += 1;
+    this.entity.y -= 1;
   }
 
   down() {
-    this.entity.y -= 1;
+    this.entity.y += 1;
   }
 
   left() {
