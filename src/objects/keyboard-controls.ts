@@ -1,12 +1,16 @@
-import Player from "./player";
+type KeyName = "moveUp" | "moveDown" | "moveLeft" | "moveRight";
 
-type Control = "moveUp" | "moveDown" | "moveLeft" | "moveRight";
+type KeyboardConfig = Record<KeyName, string>;
 
-type KeyConfig = Record<Control, string>;
+type KeyState = {
+    isDown: boolean;
+};
 
-type GameControlsOptions = {
-    keyConfig?: Partial<KeyConfig>;
-}
+type KeyboardState = Record<KeyName, KeyState>;
+
+type KeyboardControlsOptions = {
+    keyConfig?: Partial<KeyboardConfig>;
+};
 
 const DEFAULT_CONTROL_CONFIG = {
     "moveUp": "w",
@@ -15,13 +19,16 @@ const DEFAULT_CONTROL_CONFIG = {
     "moveRight": "d",
 };
 
+const INITIAL_KEYBOARD_STATE = Object.keys(DEFAULT_CONTROL_CONFIG)
+    .reduce((acc, keyName) => ({ ...acc, [keyName]: { isDown: false }}), {} as KeyboardState);
+
 export default class KeyboardControls {
-    private player: Player;
-    private keyConfig: KeyConfig;
+    private keyConfig: KeyboardConfig;
+    private keyboardState: KeyboardState;
     
-    constructor(player: Player, options?: GameControlsOptions) {
-        this.player = player;
+    constructor(options?: KeyboardControlsOptions) {
         this.keyConfig = { ...DEFAULT_CONTROL_CONFIG, ...options?.keyConfig };
+        this.keyboardState = INITIAL_KEYBOARD_STATE;
         this.mountListeners();
     }
 
@@ -56,42 +63,42 @@ export default class KeyboardControls {
             }
         });
     }
+
+    public isKeyDown(keyName: KeyName) {
+        return this.keyboardState[keyName].isDown;
+    }
     
     // keyDown handlers
     private moveUpDown = () => {
-        console.log(`${this.keyConfig.moveUp} key down`);
-        this.player.up();
+        this.keyboardState.moveUp.isDown = true;
     };
 
     private moveLeftDown = () => {
-        console.log(`${this.keyConfig.moveLeft} key down`);
-        this.player.left();
+        this.keyboardState.moveLeft.isDown = true;
     };
 
     private moveDownDown = () => {
-        console.log(`${this.keyConfig.moveDown} key down`);
-        this.player.down();
+        this.keyboardState.moveDown.isDown = true;
     };
 
     private moveRightDown = () => {
-        console.log(`${this.keyConfig.moveRight} key down`);
-        this.player.right();
+        this.keyboardState.moveRight.isDown = true;
     };
 
-    // keyUp handlers
+    // keyUp handlers 
     private moveUpUp = () => {
-        console.log(`${this.keyConfig.moveUp} key up`);
+        this.keyboardState.moveUp.isDown = false;
     };
 
     private moveLeftUp = () => {
-        console.log(`${this.keyConfig.moveLeft} key up`);
+        this.keyboardState.moveLeft.isDown = false;
     };
 
     private moveDownUp = () => {
-        console.log(`${this.keyConfig.moveDown} key up`);
+        this.keyboardState.moveDown.isDown = false;
     };
 
     private moveRightUp = () => {
-        console.log(`${this.keyConfig.moveRight} key up`);
+        this.keyboardState.moveRight.isDown = false;
     };
 }

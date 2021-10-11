@@ -1,12 +1,23 @@
 import * as PIXI from "pixi.js";
+import KeyboardControls from "./keyboard-controls";
 import WorldObject from "./world-object";
 
-export default class Player extends WorldObject {
-  private hp: number;
+type PlayerDirection = "idle" | "up" | "left" | "down" | "right" | "up-left" | "up-right" | "down-left" | "down-right";
 
-  constructor(app: PIXI.Application) {
+enum PlayerSpeed {
+  IDLE = 0,
+  WALK = 4,
+  RUN = 6,
+}
+
+export default class Player extends WorldObject {
+  private keyboardControls: KeyboardControls;
+  private direction: PlayerDirection = "idle";
+  private speed: PlayerSpeed = PlayerSpeed.IDLE;
+
+  constructor(app: PIXI.Application, keyboardControls: KeyboardControls) {
     super(app);
-    this.hp = 100;
+    this.keyboardControls = keyboardControls;
   }
 
   initGraphics() {
@@ -21,19 +32,119 @@ export default class Player extends WorldObject {
     return graphics;
   }
 
-  up() {
-    this.entity.y -= 1;
+  update() {
+    this.updateControl();
+    this.updateMovement();
   }
 
-  down() {
-    this.entity.y += 1;
+  updateControl() {
+    const isMoveUpKeyDown = this.keyboardControls.isKeyDown("moveUp");
+    const isMoveLeftKeyDown = this.keyboardControls.isKeyDown("moveLeft");
+    const isMoveDownKeyDown = this.keyboardControls.isKeyDown("moveDown");
+    const isMoveRightKeyDown = this.keyboardControls.isKeyDown("moveRight");
+
+    if (isMoveUpKeyDown && isMoveLeftKeyDown && isMoveRightKeyDown) {
+      this.direction = "up";
+    }
+    else if(isMoveLeftKeyDown && isMoveUpKeyDown && isMoveDownKeyDown) {
+      this.direction = "left"
+    }
+    else if(isMoveDownKeyDown && isMoveLeftKeyDown && isMoveRightKeyDown) {
+      this.direction = "down";
+    }
+    else if (isMoveRightKeyDown && isMoveUpKeyDown && isMoveDownKeyDown) {
+      this.direction = "right";
+    }
+    else if (isMoveUpKeyDown && isMoveLeftKeyDown) {
+      this.direction = "up-left";
+    }
+    else if (isMoveUpKeyDown && isMoveRightKeyDown) {
+      this.direction = "up-right";
+    }
+    else if (isMoveDownKeyDown && isMoveLeftKeyDown) {
+      this.direction = "down-left";
+    }
+    else if (isMoveDownKeyDown && isMoveRightKeyDown) {
+      this.direction = "down-right";
+    }
+    else if (isMoveUpKeyDown) {
+      this.direction = "up";
+    }
+    else if (isMoveLeftKeyDown) {
+      this.direction = "left";
+    }
+    else if (isMoveDownKeyDown) {
+      this.direction = "down";
+    }
+    else if (isMoveRightKeyDown) {
+      this.direction = "right";
+    }
+    else {
+      this.direction = "idle";
+    }
+    
+    if(!isMoveUpKeyDown && !isMoveLeftKeyDown && !isMoveDownKeyDown && !isMoveRightKeyDown) {
+      this.speed = PlayerSpeed.IDLE;
+    }
+    // else if (isRunKeyPressed) {
+    //   this.speed = PlayerSpeed.RUN;
+    // }
+    else {
+      this.speed = PlayerSpeed.WALK;
+    }
   }
 
-  left() {
-    this.entity.x -= 1;
-  }
+  updateMovement() {
+    console.log(this.direction);
+    switch(this.direction) {
+      case "up": {
+        this.setYSpeed(this.speed * Math.sin(6*Math.PI/4));
+        this.setXSpeed(this.speed * Math.cos(6*Math.PI/4));
+        break;
+      }
+      case "up-left": {
+        this.setYSpeed(this.speed * Math.sin(5*Math.PI/4));
+        this.setXSpeed(this.speed * Math.cos(5*Math.PI/4));
+        break;
+      }
+      case "left": {
+        this.setYSpeed(this.speed * Math.sin(4*Math.PI/4));
+        this.setXSpeed(this.speed * Math.cos(4*Math.PI/4));
+        break;
+      }
+      case "down-left": {
+        this.setYSpeed(this.speed * Math.sin(3*Math.PI/4));
+        this.setXSpeed(this.speed * Math.cos(3*Math.PI/4));
+        break;
+      }
+      case "down": {
+        this.setYSpeed(this.speed * Math.sin(2*Math.PI/4));
+        this.setXSpeed(this.speed * Math.cos(2*Math.PI/4));
+        break;
+      }
+      case "down-right": {
+        this.setYSpeed(this.speed * Math.sin(Math.PI/4));
+        this.setXSpeed(this.speed * Math.cos(Math.PI/4));
+        break;
+      }
+      case "right": {
+        this.setYSpeed(this.speed * Math.sin(0*Math.PI/4));
+        this.setXSpeed(this.speed * Math.cos(0*Math.PI/4));
+        break;
+      }
+      case "up-right": {
+        this.setYSpeed(this.speed * Math.sin(7*Math.PI/4));
+        this.setXSpeed(this.speed * Math.cos(7*Math.PI/4));
+        break;
+      }
+      case "idle": {
+        this.setYSpeed(0);
+        this.setXSpeed(0);
+        break;
+      }
+    }
 
-  right() {
-    this.entity.x += 1;
+    this.entity.x += this.getXSpeed();
+    this.entity.y += this.getYSpeed();
   }
 }

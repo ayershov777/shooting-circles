@@ -12,8 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
-    "pixi.js": "^6.1.3"
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "@types/pixi.js": "^5.0.0",

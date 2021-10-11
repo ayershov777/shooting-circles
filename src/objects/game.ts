@@ -11,8 +11,8 @@ export default class Game {
 
   constructor() {
     this.app = new PIXI.Application();
-    this.player = new Player(this.app);
-    this.keyboardControls = new KeyboardControls(this.player);
+    this.keyboardControls = new KeyboardControls();
+    this.player = new Player(this.app, this.keyboardControls);
     this.world = new World(this.app);
 
     this.initWorld();
@@ -30,5 +30,7 @@ export default class Game {
     this.app.ticker.add((delta) => this.gameLoop(delta));
   }
 
-  private gameLoop(delta: number) {}
+  private gameLoop(delta: number) {
+    this.player.update();
+  }
 }
