@@ -1,13 +1,11 @@
 import * as PIXI from "pixi.js";
+import WorldObject from "./world-object";
 
-export default class Player {
-  private app: PIXI.Application;
-  private entity: PIXI.Graphics;
+export default class Player extends WorldObject {
   private hp: number;
 
   constructor(app: PIXI.Application) {
-    this.app = app;
-    this.entity = this.initGraphics();
+    super(app);
     this.hp = 100;
   }
 
@@ -21,10 +19,6 @@ export default class Player {
     graphics.y = this.app.renderer.height / 2;
 
     return graphics;
-  }
-
-  public getEntity() {
-    return this.entity;
   }
 
   up() {

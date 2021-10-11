@@ -1,26 +1,34 @@
 import * as PIXI from "pixi.js";
+import GameControls from "./game-controls";
+import Player from "./player";
+import World from "./world";
 
-export default class Game() {
-    private app: PIXI.Application;
-    private keyboard: Keyboard;
-  
-    constructor() {
-        this.app = PIXI.Application();
-        this.keyboard = new Keyboard();
-        this.setup();
-    }
+export default class Game {
+  private app: PIXI.Application;
+  private gameControls: GameControls;
+  private player: Player;
+  private world: World;
 
-    private setup() {
-        document.body.appendChild(this.app.view);
+  constructor() {
+    this.app = new PIXI.Application();
+    this.gameControls = new GameControls();
+    this.player = new Player(this.app);
+    this.world = new World(this.app);
 
-        // set up world
-        this.app.stage.addChild(playerEntity);
+    this.initWorld();
+    this.setup();
+  }
 
-        // initiate game loop
-        this.app.ticker.add((delta) => gameLoop(delta));
-    }
-  
-    private gameLoop(delta: number) {
+  private initWorld() {
+    this.world.addObject(this.player);
+  }
 
-    }
+  private setup() {
+    document.body.appendChild(this.app.view);
+
+    // initiate game loop
+    this.app.ticker.add((delta) => this.gameLoop(delta));
+  }
+
+  private gameLoop(delta: number) {}
 }

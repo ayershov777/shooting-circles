@@ -2,11 +2,19 @@ export default class KeyboardControl {
     private value: string;
     private isDown: boolean;
     private isUp: boolean;
+    private press: () => void;
+    private release: () => void;
 
-    constructor(value: string, press, release) {
+    constructor(
+        value: string,
+        press: () => void,
+        release: () => void
+    ) {
         this.value = value;
         this.isDown = false;
         this.isUp = true;
+        this.press = press;
+        this.release = release;
         this.initEventListeners();
     }
 
@@ -16,32 +24,24 @@ export default class KeyboardControl {
     }
 
     public downHandler(event: KeyboardEvent) {
-        if (event.key === key.value) {
-            if (key.isUp) {
-                key.press();
+        if (event.key === this.value) {
+            if (this.isUp) {
+                this.press();
             }
-            key.isDown = true;
-            key.isUp = false;
+            this.isDown = true;
+            this.isUp = false;
             event.preventDefault();
         }
     }
 
     public upHandler(event: KeyboardEvent) {
-        if (event.key === key.value) {
-            if (key.isDown) {
-              key.release();
+        if (event.key === this.value) {
+            if (this.isDown) {
+              this.release();
             }
-            key.isDown = false;
-            key.isUp = true;
+            this.isDown = false;
+            this.isUp = true;
             event.preventDefault();
         }
-    }
-
-    public press() {
-
-    }
-
-    public release() {
-
     }
 }
