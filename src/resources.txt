@@ -1,0 +1,8 @@
+INTEGRATING TYPESCRIPT WITH WEBPACK : 
+https://medium.com/jspoint/integrating-typescript-with-webpack-4534e840a02b
+
+SASS SETUP : 
+https://ricardozea.medium.com/sass-for-beginners-the-friendliest-guide-about-how-to-install-use-sass-on-windows-22ff4a32c1f7
+
+PIXIJS GITHUB DOCUMENTATION :
+https://github.com/kittykatattack/learningPixi#movingsprites
