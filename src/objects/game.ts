@@ -1,38 +1,34 @@
 import * as PIXI from "pixi.js";
-import KeyboardControls from "./keyboard-controls";
+import GameControls from "./game-controls";
 import Player from "./player";
 import World from "./world";
 
 export default class Game {
   private app: PIXI.Application;
-  private keyboardControls: KeyboardControls;
+  private gameControls: GameControls;
   private player: Player;
   private world: World;
   private gamepads: Gamepad[];
 
   constructor() {
     this.app = new PIXI.Application();
-    this.keyboardControls = new KeyboardControls();
-    this.player = new Player(this.app, this.keyboardControls);
+    this.gameControls = new GameControls();
+    this.player = new Player(this.app, this.gameControls);
     this.world = new World(this.app);
     // @ts-ignore
     this.gamepads = navigator.getGamepads();
 
     this.initWorld();
-    this.setup();
+    this.initGraphics();
   }
 
   private initWorld() {
     this.world.addObject(this.player);
   }
 
-  private setup() {
+  private initGraphics() {
     document.body.appendChild(this.app.view);
-    // gamepad
-    this.supportGamepad();
-    this.getStateOfGamepads();
-    this.gamepadConnected();
-    this.gamepadDisconnected();
+    
     // initiate game loop
     this.app.ticker.add((delta) => this.gameLoop(delta));
   }
@@ -41,9 +37,6 @@ export default class Game {
     this.player.update();
   }
 
-  private supportGamepad() {
-    return !!navigator.getGamepads();
-  }
 
   // Get the state of all gamepads
   private getStateOfGamepads() {
@@ -70,46 +63,5 @@ export default class Game {
     }
   }
 
-  private gamepadConnected() {
-    window.addEventListener("gamepadconnected", function (e: GamepadEvent) {
-      console.log(
-        "Gamepad connected at index %d: %s. %d buttons, %d axes.",
-        e.gamepad.index,
-        e.gamepad.id,
-        e.gamepad.buttons.length,
-        e.gamepad.axes.length
-      );
-
-      // get gamepads standard mapping
-      if (e.gamepad.mapping == "standard") {
-        console.log("Controller has standard mapping");
-      } else {
-        console.log("Controller does not have standard mapping");
-      }
-
-      // Blindly assuming this is connected
-      let gp = e.gamepad;
-
-      // Blindly assuming there's a button
-      let button = gp.buttons[0];
-
-      if (button.pressed) {
-        console.log("Button pressed!");
-      } else {
-        console.log("Button not pressed");
-      }
-
-      console.log("Button value: " + button.value);
-    });
-  }
-
-  private gamepadDisconnected() {
-    window.addEventListener("gamepaddisconnected", function (e) {
-      console.log(
-        "Gamepad disconnected from index %d: %s",
-        e.gamepad.index,
-        e.gamepad.id
-      );
-    });
-  }
+  
 }

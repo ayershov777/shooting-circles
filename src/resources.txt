@@ -1,11 +1,15 @@
 INTEGRATING TYPESCRIPT WITH WEBPACK :
-https://medium.com/jspoint/integrating-typescript-with-webpack-4534e840a02b
+    https://medium.com/jspoint/integrating-typescript-with-webpack-4534e840a02b
 
 SASS SETUP :
-https://ricardozea.medium.com/sass-for-beginners-the-friendliest-guide-about-how-to-install-use-sass-on-windows-22ff4a32c1f7
+    https://ricardozea.medium.com/sass-for-beginners-the-friendliest-guide-about-how-to-install-use-sass-on-windows-22ff4a32c1f7
 
 PIXIJS GITHUB DOCUMENTATION :
-https://github.com/kittykatattack/learningPixi#movingsprites
+    https://github.com/kittykatattack/learningPixi#movingsprites
 
 USING GAMEPADS AND JOYSTICKS IN JAVASCRIPT
-https://beej.us/blog/data/javascript-gamepad/
+    https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API
+    https://beej.us/blog/data/javascript-gamepad/
+    https://gamepad-tester.com/
+    https://developer.android.com/training/game-controllers/controller-input#java
+    https://itnext.io/how-not-to-interact-with-your-web-app-with-a-ps4-controller-a3e3036a2f6e

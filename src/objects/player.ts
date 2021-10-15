@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import KeyboardControls from "./keyboard-controls";
+import GameControls from "./game-controls";
 import WorldObject from "./world-object";
 
 type PlayerDirection =
@@ -20,13 +20,13 @@ enum PlayerSpeed {
 }
 
 export default class Player extends WorldObject {
-  private keyboardControls: KeyboardControls;
+  private gameControls: GameControls;
   private direction: PlayerDirection = "idle";
   private speed: PlayerSpeed = PlayerSpeed.IDLE;
 
-  constructor(app: PIXI.Application, keyboardControls: KeyboardControls) {
+  constructor(app: PIXI.Application, gameControls: GameControls) {
     super(app);
-    this.keyboardControls = keyboardControls;
+    this.gameControls = gameControls;
   }
 
   initGraphics() {
@@ -47,10 +47,10 @@ export default class Player extends WorldObject {
   }
 
   updateControl() {
-    const isMoveUpKeyDown = this.keyboardControls.isKeyDown("moveUp");
-    const isMoveLeftKeyDown = this.keyboardControls.isKeyDown("moveLeft");
-    const isMoveDownKeyDown = this.keyboardControls.isKeyDown("moveDown");
-    const isMoveRightKeyDown = this.keyboardControls.isKeyDown("moveRight");
+    const isMoveUpKeyDown = this.gameControls.isControlActive("moveUp");
+    const isMoveLeftKeyDown = this.gameControls.isControlActive("moveLeft");
+    const isMoveDownKeyDown = this.gameControls.isControlActive("moveDown");
+    const isMoveRightKeyDown = this.gameControls.isControlActive("moveRight");
 
     if (isMoveUpKeyDown && isMoveLeftKeyDown && isMoveRightKeyDown) {
       this.direction = "up";
